@@ -13,25 +13,17 @@ function Word ( wordInput ){
 		for( var i = 0; i < this.currentWord.length; i++ ){
 
 			var currentLetter = new Letter( this.currentWord[i], false );
+
+			if ( currentLetter.letter === ' '){
+				currentLetter.guessedCorrectly = true;
+			}
+
 			this.letterArray.push(currentLetter);
 
 		}
 
 	}
 
-	this.printWord = function(){
-
-		var wordToPrint = '';
-
-		for(var i = 0; i < this.letterArray.length; i++ ){
-
-			// console.log(this.letterArray[i].display());
-			wordToPrint += this.letterArray[i].display();
-		}
-
-		console.log( wordToPrint );
-
-	}
 
 	this.isSolved = function(){
 
@@ -49,14 +41,52 @@ function Word ( wordInput ){
 
 	}
 
+	this.checkGuess = function( guessLetter ){
+
+		var correctGuess = false;
+
+		for( var i = 0; i < this.letterArray.length; i++ ){
+
+			if( this.letterArray[i].letter === guessLetter ){
+
+				correctGuess = true;
+				this.letterArray[i].guessedCorrectly = true;
+
+			}
+
+		}
+
+		return correctGuess;
+	}
+
+	this.printWord = function(){
+
+		var wordToPrint = '';
+
+		for(var i = 0; i < this.letterArray.length; i++ ){
+
+			wordToPrint += this.letterArray[i].display();
+			wordToPrint += ' ';
+		}
+
+		console.log('\n    ' +wordToPrint +'\n' );
+
+	}
+
+	this.revealWord = function(){
+
+		var wordToPrint = '';
+
+		for(var i = 0; i < this.letterArray.length; i++ ){
+
+			wordToPrint += this.letterArray[i].letter;
+			wordToPrint += ' ';
+		}
+
+		console.log('\n    ' +wordToPrint +'\n' );
+
+	}
+
 }
 
 module.exports = Word;
-
-// --- MAIN / TEST Logic
-
-var testWord = new Word( 'mummers' );
-testWord.createArray();
-testWord.printWord();
-testWord.isSolved();
-
