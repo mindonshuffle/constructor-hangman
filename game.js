@@ -165,10 +165,10 @@ function endGame( won ){
 
 	// display appropriate win/loss message
 	if(won){
-		console.log('You have won!')
+		console.log('\n*** You have won! ***')
 	}
 	else{
-		console.log('You have lost! The correct answer was:')
+		console.log('\nYou have lost! The correct answer was:')
 	};
 
 	// reveals the current word in full
