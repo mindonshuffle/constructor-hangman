@@ -50,6 +50,7 @@ function newWord(){
 	guessesLeft = 9;
 	guessedLetters = [];
 
+	//start new round
 	gameRound();
 
 }
@@ -61,7 +62,7 @@ function gameRound(){
 
 	console.log('Guesses Remaining: ' +guessesLeft);
 
-	// Print Current Word Status
+	// Print Current Word state
 
 	currentWord.printWord();
 
@@ -88,6 +89,7 @@ function gameRound(){
 
 		}
 
+		// if guess incorrect, decrement guesses
 		else{
 
 			console.log('Incorrect!')
@@ -119,13 +121,14 @@ function gameRound(){
 
 		}
 
-
 	});
 
 }
 
+//function to prompt for new game
 function endGame( won ){
 
+	// display appropriate win/loss message
 	if(won){
 		console.log('You have won!')
 	}
@@ -133,8 +136,10 @@ function endGame( won ){
 		console.log('You have lost! The correct answer was:')
 	};
 
+	// reveals the current word in full
 	currentWord.revealWord();
 
+	//prompts for new game
 	inquirer.prompt([
 		{
 	    	type: "list",
@@ -144,14 +149,14 @@ function endGame( won ){
 	  	}
 	]).then( function ( response ) {
 
+		//if yes, picks new word
 		if( response.newGame === 'Yes'){
 			
 			newWord();
 
-			gameRound();
-
 		}
 
+		//otherwise returns
 		else {
 			return;
 		}
@@ -161,8 +166,5 @@ function endGame( won ){
 
 // ---- ---- MAIN LOGIC ---- ----
 
+//initializes wordlist and begins game
 createWordList();
-
-// newWord();
-
-// gameRound();
