@@ -70,7 +70,7 @@ Word.prototype.printWord = function(){
 	var wordToPrint = '';
 
 	for(var i = 0; i < this.letterArray.length; i++ ){
-		wordToPrint += this.letterArray[i].display();
+		wordToPrint += this.letterArray[i].display().toUpperCase();
 		wordToPrint += ' ';
 	}
 
@@ -84,7 +84,7 @@ Word.prototype.revealWord = function(){
 	var wordToPrint = '';
 
 	for(var i = 0; i < this.letterArray.length; i++ ){
-		wordToPrint += this.letterArray[i].letter;
+		wordToPrint += this.letterArray[i].letter.toUpperCase();
 		wordToPrint += ' ';
 	}
 

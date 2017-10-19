@@ -4,12 +4,13 @@ var Word = require( './word.js' );
 var inquirer = require( 'inquirer' );
 var fs = require( 'fs' );
 
+// provides array to check user input for validation
+var alphabet = 'abcdefghijklmnopqrstuvwxyz';
 
 var wordArray = [];
 var currentWord = null;
 var guessesLeft = 9;
 var guessedLetters = [];
-
 
 // ---- ---- GLOBAL FUNCTIONS ---- ----
 
@@ -55,12 +56,11 @@ function newWord(){
 
 }
 
-
 function gameRound(){
 
 	// Print Turns Remaining
 
-	console.log('Guesses Remaining: ' +guessesLeft);
+	console.log('\nGuesses Remaining: ' +guessesLeft);
 
 	// Print Current Word state
 
@@ -72,27 +72,62 @@ function gameRound(){
 		{
 	    	type: "input",
 	    	name: "letterGuess",
-	    	message: "Please guess a letter: "
+	    	message: "Please guess a letter (? to review): "
 	  	}
 
 	]).then( function ( response ) {
 
-		// FIRST validate input is single letter
+		var currentGuess = response.letterGuess.toLowerCase();
+
+		//if ? entered, show prior guesses
+
+		if( currentGuess === '?' ){
+
+			showGuessed();
+			return;
+			
+		}
+
+		// validate input is single letter
+
+		if( alphabet.indexOf( currentGuess ) === -1 || currentGuess.length !== 1) {
+
+			console.log("\nPlease guess a single letter!")
+
+			gameRound();
+
+			return;
+
+		}
 
 		// and not already guessed
 
+		if( guessedLetters.indexOf( currentGuess ) !== -1 ){
+
+			console.log("\nYou've already guessed that letter!")
+
+			gameRound();
+
+			return;
+
+		}
+
+		// push to guessedletters array
+
+		guessedLetters.push( currentGuess );
+
 		// THEN check the guess using word method
 
-		if( currentWord.checkGuess( response.letterGuess ) ){
+		if( currentWord.checkGuess( currentGuess ) ){
 
-			console.log('Correct!');
+			console.log('\nCorrect!');
 
 		}
 
 		// if guess incorrect, decrement guesses
 		else{
 
-			console.log('Incorrect!')
+			console.log('\nIncorrect!')
 			guessesLeft --;
 
 		}
@@ -162,6 +197,22 @@ function endGame( won ){
 		}
 
 	});
+}
+
+function showGuessed (){
+
+	var guessedDisplay = "";
+
+	for( var i = 0; i < guessedLetters.length; i++ ){
+
+		guessedDisplay = guessedDisplay + guessedLetters[i].toUpperCase() + ' ';
+
+	}
+
+	console.log ('\nAlready guessed: '+guessedDisplay);
+	gameRound();
+	return;
+
 }
 
 // ---- ---- MAIN LOGIC ---- ----
